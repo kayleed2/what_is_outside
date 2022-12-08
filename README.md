@@ -1,1 +1,1 @@
-# what_is_outside
+# holbertonschool-the-joy-of-painting-api
