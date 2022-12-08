@@ -2,6 +2,7 @@
 """App.py application module"""
 import pymysql
 import json
+from auth import Auth
 from flask import Flask, render_template, jsonify
 from flask_mysqldb import MySQL, MySQLdb
 
@@ -9,9 +10,10 @@ app = Flask(__name__)
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
 app.config['MYSQL_PASSWORD'] = ''
-app.config['MYSQL_DB'] = 'joy_of_painting'
+app.config['MYSQL_DB'] = 'what_is_outside'
 
 mysql = MySQL(app)
+AUTH = Auth()
 
 
 @app.route("/", methods=['GET', 'POST', 'PUT'])
