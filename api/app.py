@@ -3,13 +3,12 @@
 import pymysql
 import json
 from auth import Auth
-from flask import Flask, render_template, jsonify
+from flask import Flask, render_template, jsonify, request
 from flask_mysqldb import MySQL, MySQLdb
 
 app = Flask(__name__)
 app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'root'
-app.config['MYSQL_PASSWORD'] = ''
 app.config['MYSQL_DB'] = 'what_is_outside'
 
 mysql = MySQL(app)
@@ -39,6 +38,24 @@ def month(month):
     content = {}
     for result in rows:
         content = {'episode': result['episode'], 'title': result['title']}
+        episodes.append(content)
+    if episodes == []:
+        episodes = {'Error': "No episode made in {}".format(month)}
+    return jsonify(episodes)
+
+@app.route("/filter", methods=['GET', 'POST', 'PUT'])
+def filter():
+
+    req = request.args.to_dict(flat=False)
+    print(req)
+
+    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    cursor.execute("SELECT episode, title, date FROM main_data where date = %s", [request.args.get('month')])
+    rows = cursor.fetchall()
+    episodes = []
+    content = {}
+    for result in rows:
+        content = {'episode': result['episode'], 'title': result['title'], 'date': result['date']}
         episodes.append(content)
     if episodes == []:
         episodes = {'Error': "No episode made in {}".format(month)}
