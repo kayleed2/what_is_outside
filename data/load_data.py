@@ -2,12 +2,12 @@ import pandas as pd
 from sqlalchemy import create_engine
 import re
 
-engine = create_engine("mysql+pymysql://root@localhost/joy_of_painting")
+engine = create_engine("mysql+pymysql://root@localhost/what_is_outside")
 
 
-colorData = pd.read_csv('./The Joy Of Painiting - Colors Used', on_bad_lines='skip')
-episode_elements = pd.read_csv('./The Joy Of Painiting - Subject Matter', on_bad_lines='skip')
-episode_date = pd.read_csv('./The Joy Of Painting - Episode Dates', on_bad_lines='skip', delimiter='[()]', names=['episode', 'date', 'desc'], engine='python')
+colorData = pd.read_csv('./jopColors', on_bad_lines='skip')
+episode_elements = pd.read_csv('./jopSubject', on_bad_lines='skip')
+episode_date = pd.read_csv('./jopEpisodeDates', on_bad_lines='skip', delimiter='[()]', names=['episode', 'date', 'desc'], engine='python')
 
 for el in episode_date.iterrows():
     el[1].date = el[1].date.split()[0]

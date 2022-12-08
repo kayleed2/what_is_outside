@@ -1,7 +1,7 @@
 -- Create database Table structure
 
-CREATE DATABASE IF NOT EXISTS joy_of_painting;
-USE joy_of_painting;
+CREATE DATABASE IF NOT EXISTS what_is_outside;
+USE what_is_outside;
 
 CREATE TABLE IF NOT EXISTS `episode_elements` (
     episode VARCHAR(10),
