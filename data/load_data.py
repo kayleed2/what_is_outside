@@ -21,7 +21,6 @@ episode_date.to_sql('episode_date', con = engine, if_exists='replace')
 
 nix_list_colorData = ['index', 'painting_index', 'painting_title', 'season', 'episode', 'num_colors',
             'color_hex']
-
 nix_list_epi_date = ['episode']
 
 combined_data = pd.concat([colorData.drop(nix_list_colorData, axis=1), episode_date.drop(nix_list_epi_date, axis=1), episode_elements], axis=1)
@@ -36,6 +35,10 @@ combined_data = combined_data[['EPISODE', 'TITLE', 'date', 'colors', 'img_src', 
                                 'OVAL_FRAME', 'PALM_TREES', 'PATH', 'PERSON', 'PORTRAIT', 'RECTANGLE_3D_FRAME',
                                 'RECTANGULAR_FRAME', 'RIVER', 'ROCKS', 'SEASHELL_FRAME', 'SNOW', 'SNOWY_MOUNTAIN',
                                 'SPLIT_FRAME', 'STEVE_ROSS', 'STRUCTURE', 'SUN', 'TOMB_FRAME', 'TREE', 'TREES',
-                                'TRIPLE_FRAME', 'WATERFALL', 'WAVES', 'WINDMILL', 'WINDOW_FRAME', 'WINTER', 'WOOD_FRAMED']]
+                                'TRIPLE_FRAME', 'WATERFALL', 'WAVES', 'WINDMILL', 'WINDOW_FRAME', 'WINTER',
+                                'WOOD_FRAMED', 'Black_Gesso', 'Bright_Red', 'Burnt_Umber', 'Cadmium_Yellow',
+                                'Dark_Sienna', 'Indian_Red', 'Indian_Yellow', 'Liquid_Black', 'Liquid_Clear',
+                                'Midnight_Black', 'Phthalo_Blue', 'Phthalo_Green', 'Prussian_Blue', 'Sap_Green',
+                                'Titanium_White', 'Van_Dyke_Brown', 'Yellow_Ochre', 'Alizarin_Crimson']]
 
 combined_data.to_sql('main_data', con = engine, if_exists='replace')
