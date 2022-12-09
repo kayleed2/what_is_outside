@@ -19,16 +19,14 @@ colorData.to_sql('color_elements', con = engine, if_exists= 'replace')
 episode_elements.to_sql('episode_elements', con = engine, if_exists='replace')
 episode_date.to_sql('episode_date', con = engine, if_exists='replace')
 
-nix_list_colorData = ['index', 'painting_index', 'img_src', 'painting_title', 'season', 'episode', 'num_colors', 'youtube_src',
-            'color_hex', 'Black_Gesso', 'Bright_Red', 'Burnt_Umber', 'Cadmium_Yellow', 'Dark_Sienna', 'Indian_Red',
-            'Indian_Yellow', 'Liquid_Black', 'Liquid_Clear', 'Midnight_Black', 'Phthalo_Blue', 'Phthalo_Green',
-            'Prussian_Blue', 'Sap_Green', 'Titanium_White', 'Van_Dyke_Brown', 'Yellow_Ochre', 'Alizarin_Crimson']
+nix_list_colorData = ['index', 'painting_index', 'painting_title', 'season', 'episode', 'num_colors',
+            'color_hex']
 
 nix_list_epi_date = ['episode']
 
 combined_data = pd.concat([colorData.drop(nix_list_colorData, axis=1), episode_date.drop(nix_list_epi_date, axis=1), episode_elements], axis=1)
 
-combined_data = combined_data[['EPISODE', 'TITLE', 'date', 'colors', 'AURORA_BOREALIS',
+combined_data = combined_data[['EPISODE', 'TITLE', 'date', 'colors', 'img_src', 'youtube_src', 'AURORA_BOREALIS',
                                 'BARN', 'BEACH', 'BOAT', 'BRIDGE', 'BUILDING', 'BUSHES', 'CABIN', 'CACTUS',
                                 'CIRCLE_FRAME', 'CIRRUS', 'CLIFF', 'CLOUDS', 'CONIFER', 'CUMULUS',
                                 'DECIDUOUS', 'DIANE_ANDRE', 'DOCK', 'DOUBLE_OVAL_FRAME', 'FARM',
