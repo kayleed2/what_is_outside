@@ -43,14 +43,62 @@ def month(month):
         episodes = {'Error': "No episode made in {}".format(month)}
     return jsonify(episodes)
 
+
 @app.route("/filter", methods=['GET', 'POST', 'PUT'])
 def filter():
 
     req = request.args.to_dict(flat=False)
     print(req)
 
+# http://0.0.0.0:8000/filter?match=True&months=january&months=july&colors=Bright_Red&subjects=bushes
+
+    monthQuery = ''
+    if req.get('months'):
+        months = req.get('months')
+
+    colorQuery = ''
+    if req.get('colors'):
+        colors = req.get('colors')
+
+    subjectQuery = ''
+    if req.get('subjects'):
+        subjects = req.get('subjects')
+
+    match = "AND"
+    if req.get('match'):
+        if req.get('match') == False:
+            match = "OR"
+
+    sql = "SELECT title, episode, date, colors"
+
+    if subjects:
+        for sub in subjects:
+            sql += f', {sub}'
+            subjectQuery += f' {match} {sub}=1'
+
+    sql += " FROM main_data"
+
+    if subjects or months or colors:
+        sql += " WHERE title IS NOT NULL"
+
+    if colors:
+        for color in colors:
+            colorQuery += f" {match} {color}=1"
+
+    if months:
+        monthQuery = " AND month IN ("
+        for i in range(len(months)):
+            monthQuery += f"'{months[i]}'"
+            if i != len(months) - 1:
+                monthQuery += ", "
+        monthQuery += ")"
+
+    sql += f"{monthQuery} {colorQuery} {subjectQuery}"
+
+
+
     cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-    cursor.execute("SELECT episode, title, date FROM main_data where date = %s", [request.args.get('month')])
+    cursor.execute(sql)
     rows = cursor.fetchall()
     episodes = []
     content = {}
