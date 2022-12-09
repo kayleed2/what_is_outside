@@ -1,29 +1,80 @@
 
 window.onload = function(){
-    filter_content()
+    content()
     console.log("Waves!!!")
     california();
 
 }
 
-
-function filter_content(){
-  const months = ["January", "Febuary", "March", "April",
+const months = ["January", "Febuary", "March", "April",
     "May", "June", "July", "August", "Semptember", "October", "November", "December"]
-  console.log("filter test!")
+var selected_months = []
+
+
+function content(){
+
   for (let i = 0; i < 12; i++){
     $("#month").append(`
         <label>
-                <input type="checkbox" name="month[]" value=${months[i]}>
+                <input type="checkbox" name="month[]" value=${months[i]} id=${months[i]} onclick="checkbox(this)">
                 <span>${months[i]}</span>
 
         </label>
   `)
-
   }
-  
+
+  $(".filter").append(`
+  <button id="submit" onclick="submit()">Submit</button>
+
+  `)
+
+
+  let subject = document.getElementById("exampleFormControlInput1");
+  subject.addEventListener("keyup", (event) => {
+    if (event.key === "Enter") {
+        event.preventDefault();
+        document.getElementById("submit").click();
+    }
+})
 
 }
+
+
+function submit(){
+  let input = document.getElementById("exampleFormControlInput1")
+  const subject = input.value
+  console.log("submit")
+  console.log(subject)
+}
+
+
+function checkbox(element){
+  if ($(element).is(':checked')) { 
+    console.log('yes')
+    console.log(element.value)
+    selected_months.push(element.value)
+  }
+  else{
+    console.log("no")
+    var monthIndex = selected_months.indexOf(element.value);//get  "car" index
+    selected_months.splice(monthIndex, 1)
+  }
+  console.log(selected_months)
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 function florida(){
   $("#beach-listings").empty()
