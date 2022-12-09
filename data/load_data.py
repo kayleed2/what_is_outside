@@ -12,10 +12,10 @@ episode_date = pd.read_csv('./jopEpisodeDates', on_bad_lines='skip', delimiter='
 for el in episode_date.iterrows():
     el[1].date = el[1].date.split()[0]
 
-for n in colorData.colors:
-    n = re.findall("'.*'", n)
+#for n in colorData.colors:
+#    n = re.findall("'.*'", n)
 
-colorData.to_sql('color_elements', con = engine, if_exists= 'replace')
+#colorData.to_sql('color_elements', con = engine, if_exists= 'replace')
 episode_elements.to_sql('episode_elements', con = engine, if_exists='replace')
 episode_date.to_sql('episode_date', con = engine, if_exists='replace')
 

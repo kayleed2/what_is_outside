@@ -48,7 +48,6 @@ def month(month):
 def filter():
 
     req = request.args.to_dict(flat=False)
-    print(req)
 
 # http://0.0.0.0:8000/filter?match=True&months=january&months=july&colors=Bright_Red&subjects=bushes
 
@@ -66,27 +65,27 @@ def filter():
 
     match = "AND"
     if req.get('match'):
-        if req.get('match') == False:
+        if req.get('match')[0] == 'False':
             match = "OR"
 
-    sql = "SELECT title, episode, date, colors"
+    sql = "SELECT m.title, m.episode, m.date, m.img_src, m.youtube_src, c.colors"
 
     if subjects:
         for sub in subjects:
-            sql += f', {sub}'
-            subjectQuery += f' {match} {sub}=1'
+            sql += f', m.{sub}'
+            subjectQuery += f' {match} m.{sub}=1'
 
-    sql += " FROM main_data"
+    sql += " FROM main_data AS m JOIN color_elements AS c on title = c.painting_title"
 
     if subjects or months or colors:
         sql += " WHERE title IS NOT NULL"
 
     if colors:
         for color in colors:
-            colorQuery += f" {match} {color}=1"
+            colorQuery += f" {match} m.{color}=1"
 
     if months:
-        monthQuery = " AND month IN ("
+        monthQuery = f" {match} m.date IN ("
         for i in range(len(months)):
             monthQuery += f"'{months[i]}'"
             if i != len(months) - 1:
@@ -95,15 +94,14 @@ def filter():
 
     sql += f"{monthQuery} {colorQuery} {subjectQuery}"
 
-
-
     cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
     cursor.execute(sql)
     rows = cursor.fetchall()
     episodes = []
     content = {}
     for result in rows:
-        content = {'episode': result['episode'], 'title': result['title'], 'date': result['date']}
+        content = {'episode': result['episode'], 'title': result['title'], 'date': result['date'],
+                   'colors': result['colors'], 'img_src': result['img_src'], 'youtube_src': result['youtube_src']}
         episodes.append(content)
     if episodes == []:
         episodes = {'Error': "No episode made in {}".format(month)}

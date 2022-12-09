@@ -85,8 +85,8 @@ CREATE TABLE IF NOT EXISTS `color_elements`(
     episode INT,
     num_colors INT,
     youtube_src VARCHAR(100),
-    colors JSON,
-    color_hex JSON,
+    colors VARCHAR(300),
+    color_hex VARCHAR(300),
     Black_Gesso BOOLEAN,
     Bright_Red BOOLEAN,
     Burnt_Umber BOOLEAN,
@@ -110,4 +110,4 @@ CREATE TABLE IF NOT EXISTS `color_elements`(
 CREATE TABLE IF NOT EXISTS `episode_date`(
     episode VARCHAR(100),
     date_of_epi VARCHAR(100)
-)
+);
