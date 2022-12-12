@@ -34,6 +34,36 @@
 *::after {
   box-sizing: border-box; }
 
+/* JOSEPH CSS */
+
+/* Dropdown filters */
+
+.dropdown {
+  list-style-type: none;
+}
+
+.dropdown a {
+  color:#000;
+  padding: 7px 10px 7px 10px;
+  border-width: 2px;
+  border-style: solid;
+  border-color: #000;
+  border-radius: 50px;
+}
+
+.dropdown-subject ol {
+  width: 80em;
+}
+
+.dropdown-subject li {
+  float: left;
+  width: 10em;
+}
+
+/* JOSEPH CSS - END */
+
+
+
 html {
   font-family: sans-serif;
   line-height: 1.15;
@@ -2039,11 +2069,11 @@ input[type="button"].btn-block {
   z-index: 1000;
   display: none;
   float: left;
-  min-width: 10rem;
+  min-width: 12rem;
   padding: 0.75rem 0;
   margin: 0.125rem 0 0;
   font-size: 1rem;
-  color: #CFD8DC;
+  color: #000;
   text-align: left;
   list-style: none;
   background-color: #ffffff;
@@ -7612,7 +7642,6 @@ footer h5 {
 
     .filter{
       height: 500vh;
-      padding-left: 600px !important;
       padding-bottom: 140px !important;
 
       background-color: rgb(78, 199, 132) !important;

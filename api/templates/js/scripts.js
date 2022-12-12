@@ -6,21 +6,61 @@ window.onload = function(){
 
 }
 
+
+
+
 const months = ["January", "Febuary", "March", "April",
     "May", "June", "July", "August", "Semptember", "October", "November", "December"]
 var selected_months = []
 
+const subjects = ["apple_frame", "aurora_borealis", "barn", "beach", "boat", "bridge",
+    "building", "bushes", "cabin", "cactus", "circle_frame", "cirrus", "cliff", "clouds",
+    "conifer", "cumulus", "deciduous", "diane_andre", "dock", "double_oval_frame",
+    "farm", "fence", "fire", "florida_frame", "flowers", "fog", "framed", "grass",
+    "guest", "half_circle_frame", "half_oval_frame", "hills", "lake", "lakes", "lighthouse",
+    "mill", "moon", "mountain", "mountains", "night", "ocean", "oval_frame", "palm_trees",
+    "path", "person", "portrait", "rectangle_3d_frame", "rectangular_frame", "river",
+    "rocks", "seashell_frame", "snow", "snowy_mountain", "split_frame", "steve_ross",
+    "structure", "sun", "tomb_frame", "tree", "trees", "triple_frame", "waterfall",
+    "waves", "windmill", "window_frame", "winter", "wood_framed"]
+var selected_subjects = []
+
+const colors = ["black_gesso", "bright_red", "burnt_umber", "cadmium_yellow", "dark_sienna",
+    "indian_red", "indian_yellow", "liquid_black", "liquid_clear", "midnight_black", "phthalo_blue",
+    "phthalo_green", "prussian_blue", "sap_green", "titanium_white", "van_dyke_brown", "yellow_ochre",
+    "alizarin_crimson"]
+var selected_colors = []
+
 
 function content(){
 
-  for (let i = 0; i < 12; i++){
+  for (let i = 0; i < months.length; i++){
     $("#month").append(`
-        <label>
-                <input type="checkbox" name="month[]" value=${months[i]} id=${months[i]} onclick="checkbox(this)">
-                <span>${months[i]}</span>
+        <li>
+          <input type="checkbox" name="month[]" value=${months[i]} id=${months[i]} onclick="checkbox(this)">
+          <span>${months[i]}</span>
+        </li>
+    `)
+  }
 
-        </label>
-  `)
+  for (let i = 0; i < subjects.length; i++){
+    $("#subject").append(`
+        <li>
+                <input type="checkbox" name="month[]" value=${subjects[i]} id=${subjects[i]} onclick="checkbox(this)">
+                <span>${subjects[i]}</span>
+
+        </li>
+    `)
+  }
+
+  for (let i = 0; i < colors.length; i++){
+    $("#color").append(`
+        <li>
+                <input type="checkbox" name="month[]" value=${colors[i]} id=${colors[i]} onclick="checkbox(this)">
+                <span>${colors[i]}</span>
+
+        </li>
+    `)
   }
 
   $(".filter").append(`
