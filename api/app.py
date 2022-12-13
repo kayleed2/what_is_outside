@@ -14,9 +14,12 @@ app.config['MYSQL_DB'] = 'what_is_outside'
 mysql = MySQL(app)
 AUTH = Auth()
 
+@app.route("/home", methods=['GET', 'POST', 'PUT'])
+def home():
+    return render_template('home.html')
 
 @app.route("/", methods=['GET', 'POST', 'PUT'])
-def home():
+def all():
     cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
     cursor.execute("SELECT episode, title FROM main_data")
     rows = cursor.fetchall()

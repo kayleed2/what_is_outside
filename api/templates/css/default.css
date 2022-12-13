@@ -43,7 +43,7 @@
 }
 
 .dropdown a {
-  color:#000;
+  color: white;
   padding: 7px 10px 7px 10px;
   border-width: 2px;
   border-style: solid;
@@ -121,7 +121,8 @@ ol,
 ul,
 dl {
   margin-top: 0;
-  margin-bottom: 1rem; }
+  margin-bottom: 1rem;
+padding: 0; }
 
 a {
   color: #1de9b6;
@@ -7693,6 +7694,7 @@ footer h5 {
   margin-right: auto;
   width: 600px;
   padding-top: 30px;
+  justify-content: center;
 
 }
 

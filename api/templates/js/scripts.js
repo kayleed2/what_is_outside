@@ -391,3 +391,61 @@ $(function () {
         $(this).addClass('active');
     });
 });
+
+// Kaylee's JS for signup
+
+function showWelcomeMessageOrForm() {
+  if (Cookies.get('firstname') == null ) {
+    showForm();
+  } else {
+    hideForm();
+  }
+}
+
+function hideForm() {
+  let formdiv = document.getElementById('cont');
+  formdiv.style.display = 'none';
+  $('#signup').append(`<div class="p-5 mt-4 mb-4 d-flex flex-column justify-content-center align-items-center" id="members">
+  <h1 class="text-white text-center"><br>You are all signed up!</h1>
+  <a href="#"><button type="button" class="btn btn-secondary m-3 font-weight-bold border-0" style="background-color: var(--accent-lightblue);" id="member">Member Login</button></a>
+  </div>`);
+
+
+}
+
+function showForm() {
+  let formdiv = document.getElementById('cont');
+  formdiv.style.display = 'block';
+  if (document.getElementById('member')) {
+      let it = document.getElementById('member');
+      it.style.display = 'none';
+      formdiv.style.display = 'block';
+  }
+}
+
+const saveFile = function () {
+  let email = $('#email-input').val();
+  let firstName = $('#firstname-input').val();
+  let lastName = $('#lastname-input').val();
+  let package = $('#pack-select').val();
+  var platforms = [];
+  $('input:checked').each(function() {
+    platforms.push($(this).attr('name'));
+});
+let user = {};
+user["email"] = email;
+user["firstName"] = firstName;
+user["lastName"] = lastName;
+
+$("#myForm").submit(function(event) {
+  event.preventDefault(); //prevent default action 
+  let post_url = $(this).attr("action"); //get form action url
+  $.get("./user.html", user, function(response) {
+    $("#server-results").html(response);
+  });
+});
+
+Cookies.set('firstname', firstName, { expires: 14, path: '' });
+Cookies.set('email', email, { expires: 14, path: '' });
+Cookies.set('lastname', lastName, { expires: 14, path: '' });
+}
