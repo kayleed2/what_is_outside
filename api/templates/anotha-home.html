@@ -118,8 +118,8 @@
                         </div>
                     </div>
                 </form>
-                <button class="btn btn-primary d-inline-flex flex-row align-items-center">
-                    VIEW HIS PAINTINGS NOW
+                <button class="btn btn-primary d-inline-flex flex-row align-items-center" onclick="california()">
+                    VIEW PAINTINGS NOW
                     <em class="ml-2" data-feather="arrow-right"></em>
                 </button>
             </div>
@@ -214,6 +214,31 @@
                 <div class="drip right"></div>
             </div>
         </div>
+        <!-- paintings Section -->
+        <section class="beaches pt-5">
+            <div class="beaches-inner d-flex flex-column ">
+            <p class=" text-muted" id="count" style="font-size: 16px; margin-top: 0px; padding-left: 110px; padding-top: 50px;
+            "></p>        
+            <div class="loader" id="course-loader"></div>
+            <div id="state-header"style="margin-right: auto; margin-left: auto; width: 250px;">
+                <h3>Your Paintings</h3>
+            </div>
+            <div class="row" id="beach-listings">
+            
+            </div>
+            </div>
+            
+            <div class="pagination">
+            <li class="page-item previous-page disable"><a class="page-link" href="#">Prev</a></li>
+            <li class="page-item current-page"><a class="page-link" href="#">1</a></li>
+            <li class="page-item dots"><a class="page-link" href="#">...</a></li>
+            <li class="page-item current-page"><a class="page-link" href="#">5</a></li>
+            <li class="page-item current-page"><a class="page-link" href="#">6</a></li>
+            <li class="page-item dots"><a class="page-link" href="#">..</a></li>
+            <li class="page-item current-page"><a class="page-link" href="#">10</a></li>
+            <li class="page-item next-page"><a class="page-link" href="#">Next</a></li>
+            </div>
+            </section>
     </div>
     <div class="signup bg-color-darkaccent" id="signup">
         <div class="container" id="cont">

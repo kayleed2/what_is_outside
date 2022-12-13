@@ -1,7 +1,6 @@
 
 window.onload = function(){
     content()
-    console.log("Waves!!!")
     california();
 
 }
@@ -11,7 +10,7 @@ window.onload = function(){
 
 const months = ["January", "Febuary", "March", "April",
     "May", "June", "July", "August", "Semptember", "October", "November", "December"]
-var selected_months = []
+let selected_months = []
 
 const subjects = ["apple_frame", "aurora_borealis", "barn", "beach", "boat", "bridge",
     "building", "bushes", "cabin", "cactus", "circle_frame", "cirrus", "cliff", "clouds",
@@ -23,13 +22,13 @@ const subjects = ["apple_frame", "aurora_borealis", "barn", "beach", "boat", "br
     "rocks", "seashell_frame", "snow", "snowy_mountain", "split_frame", "steve_ross",
     "structure", "sun", "tomb_frame", "tree", "trees", "triple_frame", "waterfall",
     "waves", "windmill", "window_frame", "winter", "wood_framed"]
-var selected_subjects = []
+let selected_subjects = []
 
 const colors = ["black_gesso", "bright_red", "burnt_umber", "cadmium_yellow", "dark_sienna",
     "indian_red", "indian_yellow", "liquid_black", "liquid_clear", "midnight_black", "phthalo_blue",
     "phthalo_green", "prussian_blue", "sap_green", "titanium_white", "van_dyke_brown", "yellow_ochre",
     "alizarin_crimson"]
-var selected_colors = []
+let selected_colors = []
 
 
 function content(){
@@ -37,7 +36,7 @@ function content(){
   for (let i = 0; i < months.length; i++){
     $("#month").append(`
         <li>
-          <input type="checkbox" name="month[]" value=${months[i]} id=${months[i]} onclick="checkbox(this)">
+          <input type="checkbox" name="month[]" value=${months[i]} id=${months[i]} onclick="checkbox(this, selected_months)">
           <span>${months[i]}</span>
         </li>
     `)
@@ -46,7 +45,7 @@ function content(){
   for (let i = 0; i < subjects.length; i++){
     $("#subject").append(`
         <li>
-                <input type="checkbox" name="month[]" value=${subjects[i]} id=${subjects[i]} onclick="checkbox(this)">
+                <input type="checkbox" name="month[]" value=${subjects[i]} id=${subjects[i]} onclick="checkbox(this, selected_subjects)">
                 <span>${subjects[i]}</span>
 
         </li>
@@ -56,7 +55,7 @@ function content(){
   for (let i = 0; i < colors.length; i++){
     $("#color").append(`
         <li>
-                <input type="checkbox" name="month[]" value=${colors[i]} id=${colors[i]} onclick="checkbox(this)">
+                <input type="checkbox" name="month[]" value=${colors[i]} id=${colors[i]} onclick="checkbox(this, selected_colors)">
                 <span>${colors[i]}</span>
 
         </li>
@@ -69,13 +68,13 @@ function content(){
   `)
 
 
-  let subject = document.getElementById("exampleFormControlInput1");
-  subject.addEventListener("keyup", (event) => {
-    if (event.key === "Enter") {
-        event.preventDefault();
-        document.getElementById("submit").click();
-    }
-})
+//   let subject = document.getElementById("exampleFormControlInput1");
+//   subject.addEventListener("keyup", (event) => {
+//     if (event.key === "Enter") {
+//         event.preventDefault();
+//         document.getElementById("submit").click();
+//     }
+// })
 
 }
 
@@ -88,18 +87,20 @@ function submit(){
 }
 
 
-function checkbox(element){
+function checkbox(element, array){
   if ($(element).is(':checked')) { 
     console.log('yes')
     console.log(element.value)
-    selected_months.push(element.value)
+    array.push(element.value)
   }
   else{
     console.log("no")
-    var monthIndex = selected_months.indexOf(element.value);//get  "car" index
-    selected_months.splice(monthIndex, 1)
+    var monthIndex = array.indexOf(element.value);//get  "car" index
+    array.splice(monthIndex, 1)
   }
-  console.log(selected_months)
+  console.log("array")
+
+  console.log(array)
 }
 
 
@@ -123,7 +124,7 @@ function florida(){
 
   $.ajax({
       type: 'GET',
-      url: `https://ca.dep.state.fl.us/arcgis/rest/services/OpenData/AQUATIC_PRESERVES/MapServer/1/query?where=1%3D1&outFields=*&outSR=4326&f=json`,
+      url: `http://0.0.0.0:8000/filter`,
       dataType: 'json',
       beforeSend:  function(){
           $(".loader").show()
@@ -133,9 +134,9 @@ function florida(){
       },
       success: function(result){
           let count = 0;
-          let image = "images/sample-beach1a.jpg"
-          console.log(result.features[0].attributes.BEACH_OR_CITY_NAME)
-          console.log(result.features[0].attributes)
+          // let image = "images/sample-beach1a.jpg"
+          // console.log(result.features[0].attributes.BEACH_OR_CITY_NAME)
+          // console.log(result.features[0].attributes)
           $("#state-header").html(`<h3>Florida Beaches<h3>`)
           for(let i = 0; i < 50; i++){
               count++;
@@ -168,14 +169,26 @@ function florida(){
 
 function california(){
   $("#beach-listings").empty()
-  console.log("TEST 1")
   $("#state-header").empty()
 
+  url = 'http://0.0.0.0:8000/filter?'
+  for (let i = 0; i < selected_months.length; i++) {
+    url += `months=${selected_months[i]}&`
+  }
 
+  for (let i = 0; i < selected_subjects.length; i++) {
+    url += `subjects=${selected_subjects[i]}&`
+  }
+
+  for (let i = 0; i < selected_colors.length; i++) {
+    url += `colors=${selected_colors[i]}&`
+  }
+
+  console.log(url)
 
   $.ajax({
       type: 'GET',
-      url: `https://api.coastal.ca.gov/access/v1/locations`,
+      url: url,
       dataType: 'json',
       beforeSend:  function(){
           $(".loader").show()
@@ -184,40 +197,33 @@ function california(){
           $(".loader").hide()
       },
       success: function(result){
-        $("#state-header").html(`<h3>California Beaches<h3>`)
+        $("#state-header").html(`<h3>Your Paintings:<h3>`)
 
-
-          console.log("TEST 2")
 
 
           let count = 0;
           let image;
 
-          for(let i = 0; i < 130; i++){
-            image = "images/sample-beach1a.jpg";
+          for(let i = 0; i < result.length; i++){
+            // image = "images/sample-beach1a.jpg";
 
-            if (result[i].Photo_1){
-              image = result[i].Photo_1;
+            // if (result[i].Photo_1){
+            //   image = result[i].Photo_1;
 
-            }
-
-            if (result[i].FISHING == "Yes"){
-
+            // }
+            if (result[i]){
                   count++;
                   $("#beach-listings").append(`
-
-                  <div class="col-12 col-sm-4 col-lg-3 beach-item">
-
-            <div class="card border-0">
-                <img class="card-img-top beach-img " src=${image}>
-                <div class="card-info">
-                    <h3 class="card-title">${result[i].NameMobileWeb}</h3>
-                      <p class="text-royal pl-3 pt-2">${result[i].LocationMobileWeb}</p>
-                </div>
-
-              </div>
-          </div>
-                      `)
+                    <div class="col-12 col-sm-4 col-lg-3 beach-item">
+                      <div class="card border-0">
+                        <img class="card-img-top beach-img " src=${result[i].img_src}>
+                        <div class="card-info">
+                          <h3 class="card-title">${result[i].title}</h3>
+                            <p class="text-royal pl-3 pt-2">${result[i].date}</p>
+                        </div>
+                      </div>
+                    </div>
+                  `)
 
             }
         }
