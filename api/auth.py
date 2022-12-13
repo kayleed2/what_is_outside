@@ -32,7 +32,7 @@ class Auth:
         """Checks if login is valid"""
         try:
             user = self._db.find_user_by(email=email)
-            return checkpw(password.encode('utf-8'), user.hashed_password)
+            return checkpw(password.encode('utf-8'), user.password)
         except Exception:
             return False
 
@@ -80,7 +80,7 @@ class Auth:
         """Updates password"""
         try:
             user = self._db.find_user_by(reset_token=reset_token)
-            user.hashed_password = _hash_password(password)
+            user.password = _hash_password(password)
             user.reset_token = None
         except Exception:
             raise ValueError

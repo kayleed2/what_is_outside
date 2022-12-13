@@ -18,7 +18,7 @@ class User(Base):
     __tablename__ = 'users'
     id = Column(Integer, primary_key=True)
     email = Column(String(250), nullable=False)
-    hashed_password = Column(String(250), nullable=False)
+    password = Column(String(250), nullable=False)
     session_id = Column(String(250), nullable=True)
     reset_token = Column(String(250), nullable=True)
 
@@ -44,9 +44,9 @@ class DB:
             self.__session = DBSession()
         return self.__session
 
-    def add_user(self, email: str, hashed_password: str) -> User:
+    def add_user(self, email: str, password: str) -> User:
         """Method that adds user obj to database"""
-        new = User(email=email, hashed_password=hashed_password)
+        new = User(email=email, password=password)
         self._session.add(new)
         self._session.commit()
         return new

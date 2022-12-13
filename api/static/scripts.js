@@ -1,4 +1,3 @@
-
 window.onload = function(){
     content()
     california();
@@ -8,7 +7,7 @@ window.onload = function(){
 
 
 
-const months = ["January", "Febuary", "March", "April",
+const months = ["January", "February", "March", "April",
     "May", "June", "July", "August", "Semptember", "October", "November", "December"]
 let selected_months = []
 
@@ -89,8 +88,6 @@ function submit(){
 
 function checkbox(element, array){
   if ($(element).is(':checked')) { 
-    console.log('yes')
-    console.log(element.value)
     array.push(element.value)
   }
   else{
@@ -98,9 +95,6 @@ function checkbox(element, array){
     var monthIndex = array.indexOf(element.value);//get  "car" index
     array.splice(monthIndex, 1)
   }
-  console.log("array")
-
-  console.log(array)
 }
 
 
@@ -124,7 +118,7 @@ function florida(){
 
   $.ajax({
       type: 'GET',
-      url: `http://0.0.0.0:8000/filter`,
+      url: `http://localhost:5000/filter`,
       dataType: 'json',
       beforeSend:  function(){
           $(".loader").show()
@@ -171,7 +165,7 @@ function california(){
   $("#beach-listings").empty()
   $("#state-header").empty()
 
-  url = 'http://0.0.0.0:8000/filter?'
+  url = 'http://localhost:8000/filter?'
   for (let i = 0; i < selected_months.length; i++) {
     url += `months=${selected_months[i]}&`
   }
@@ -183,8 +177,6 @@ function california(){
   for (let i = 0; i < selected_colors.length; i++) {
     url += `colors=${selected_colors[i]}&`
   }
-
-  console.log(url)
 
   $.ajax({
       type: 'GET',
@@ -401,11 +393,27 @@ $(function () {
 // Kaylee's JS for signup
 
 function showWelcomeMessageOrForm() {
-  if (Cookies.get('firstname') == null ) {
-    showForm();
-  } else {
-    hideForm();
-  }
+  $.ajax({
+    type: 'GET',
+    url: `http://localhost:8000/sessions`,
+    dataType: 'json',
+    data: {"email": email, "password": password},
+    beforeSend:  function(){
+        $(".loader").show()
+    },
+    complete: function(){
+        $(".loader").hide()
+    },
+    success: function(result){
+      console.log(result)
+      alert("Successful signup")
+    },
+  })
+  // if (Cookies.get('email') == null ) {
+  //   showForm();
+  // } else {
+  //   hideForm();
+  // }
 }
 
 function hideForm() {
@@ -431,27 +439,47 @@ function showForm() {
 
 const saveFile = function () {
   let email = $('#email-input').val();
-  let firstName = $('#firstname-input').val();
-  let lastName = $('#lastname-input').val();
-  let package = $('#pack-select').val();
-  var platforms = [];
-  $('input:checked').each(function() {
-    platforms.push($(this).attr('name'));
-});
-let user = {};
-user["email"] = email;
-user["firstName"] = firstName;
-user["lastName"] = lastName;
+  let password = $('#password-input').val();
+  let user = {};
+  user["email"] = email;
+  user["password"] = password;
+
 
 $("#myForm").submit(function(event) {
-  event.preventDefault(); //prevent default action 
-  let post_url = $(this).attr("action"); //get form action url
-  $.get("./user.html", user, function(response) {
-    $("#server-results").html(response);
-  });
-});
 
-Cookies.set('firstname', firstName, { expires: 14, path: '' });
-Cookies.set('email', email, { expires: 14, path: '' });
-Cookies.set('lastname', lastName, { expires: 14, path: '' });
+  $.ajax({
+    type: 'POST',
+    url: `http://localhost:8000/users`,
+    dataType: 'json',
+    data: {"email": email, "password": password},
+    beforeSend:  function(){
+        $(".loader").show()
+    },
+    complete: function(){
+        $(".loader").hide()
+    },
+    success: function(result){
+      console.log(result)
+      alert("Successful signup")
+    },
+  })
+
+  $.ajax({
+    type: 'POST',
+    url: `http://localhost:8000/sessions`,
+    dataType: 'json',
+    data: {"email": email, "password": password},
+    beforeSend:  function(){
+        $(".loader").show()
+    },
+    complete: function(){
+        $(".loader").hide()
+    },
+    success: function(result){
+      console.log(result)
+      alert("Successful signup")
+    },
+  })
+  Cookies.set('user', JSON.stringify(user), { expires: 14, path: '' });
+});
 }
