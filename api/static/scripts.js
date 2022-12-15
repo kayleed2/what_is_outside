@@ -395,7 +395,7 @@ $(function () {
 function showWelcomeMessageOrForm() {
   $.ajax({
     type: 'GET',
-    url: `http://localhost:8000/sessions`,
+    url: `http://localhost:8000/users`,
     dataType: 'json',
     data: {"email": email, "password": password},
     beforeSend:  function(){
@@ -448,10 +448,9 @@ const saveFile = function () {
 $("#myForm").submit(function(event) {
 
   $.ajax({
-    type: 'POST',
-    url: `http://localhost:8000/users`,
+    type: 'GET',
+    url: `http://localhost:8000/users?email=${email}&password=${password}`,
     dataType: 'json',
-    data: {"email": email, "password": password},
     beforeSend:  function(){
         $(".loader").show()
     },
@@ -463,7 +462,7 @@ $("#myForm").submit(function(event) {
       alert("Successful signup")
     },
   })
-
+/*
   $.ajax({
     type: 'POST',
     url: `http://localhost:8000/sessions`,
@@ -479,6 +478,6 @@ $("#myForm").submit(function(event) {
       console.log(result)
       alert("Successful signup")
     },
-  })
+  })*/
 });
 }

@@ -27,22 +27,34 @@ def home():
     """Route for users"""
     return render_template('./anotha-home.html')
 
-@app.route('/users', methods=['POST'])
+@app.route('/users', methods=['GET'])
 def users():
     """Route for users"""
-    email = request.form.get('email')
-    pwd = request.form.get('password')
-    try:
-        AUTH.register_user(email, pwd)
-        return jsonify({'email': email, 'message': 'user created'})
-    except ValueError:
-        if (AUTH.valid_login(email=email, password=pwd)):
-            return jsonify({'message': 'email already registered'}), 400        
+    req = request.args.to_dict()
+    email = req.get('email')
+    password = req.get('password')
+    if email == '' or password == '':
+        print("Missing email or password")
+
+    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    cursor.execute(f'SELECT email, password FROM user_auth WHERE email="{email}";')
+    result = cursor.fetchall()
+    if len(result) < 2:
+        cursor.execute(f'INSERT INTO user_auth (email, password) VALUES ("{email}", "{password}");')
+        mysql.connection.commit()
+        cursor.close()
+        return
+    print('account already exists')
+    print(result)
+
+    return('yeehaw')
 
 
+
+"""
 @app.route('/sessions', methods=['POST'])
 def login():
-    """User logs in"""
+    """"""
     email = request.form.get('email')
     pwd = request.form.get('password')
 
@@ -54,12 +66,12 @@ def login():
     response = jsonify({"email": email, "message": "logged in"})
     response.set_cookie("session_id", session_id)
     return response
-
+"""
 
 @app.route("/filter", methods=['GET', 'POST', 'PUT'])
 def filter():
 
-    req = request.args.to_dict(flat=False)
+    req = request.args.to_dict()
 
 # http://0.0.0.0:8000/filter?match=True&months=january&months=july&colors=Bright_Red&subjects=bushes
 
