@@ -36,10 +36,11 @@ def users():
         AUTH.register_user(email, pwd)
         return jsonify({'email': email, 'message': 'user created'})
     except ValueError:
-        return jsonify({'message': 'email already registered'}), 400
+        if (AUTH.valid_login(email=email, password=pwd)):
+            return jsonify({'message': 'email already registered'}), 400        
 
 
-@app.route('/sessions', methods=['POST', 'GET'])
+@app.route('/sessions', methods=['POST'])
 def login():
     """User logs in"""
     email = request.form.get('email')

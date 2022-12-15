@@ -443,7 +443,7 @@ const saveFile = function () {
   let user = {};
   user["email"] = email;
   user["password"] = password;
-
+  Cookies.set('user', JSON.stringify(user), { expires: 14, path: '' });
 
 $("#myForm").submit(function(event) {
 
@@ -480,6 +480,5 @@ $("#myForm").submit(function(event) {
       alert("Successful signup")
     },
   })
-  Cookies.set('user', JSON.stringify(user), { expires: 14, path: '' });
 });
 }
