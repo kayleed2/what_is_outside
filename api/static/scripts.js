@@ -462,10 +462,19 @@ $("#myForm").submit(function(event) {
       alert("Successful signup")
     },
   })
-/*
+});
+}
+
+const login = function() {
+  let email = $('#email-input').val();
+  let password = $('#password-input').val();
+  let user = {};
+  user["email"] = email;
+  user["password"] = password;
+
   $.ajax({
     type: 'POST',
-    url: `http://localhost:8000/sessions`,
+    url: `http://localhost:8000/login`,
     dataType: 'json',
     data: {"email": email, "password": password},
     beforeSend:  function(){
@@ -476,8 +485,7 @@ $("#myForm").submit(function(event) {
     },
     success: function(result){
       console.log(result)
-      alert("Successful signup")
+      alert("Successful login")
     },
-  })*/
-});
+  })
 }

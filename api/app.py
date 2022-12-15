@@ -7,6 +7,7 @@ from flask import Flask, render_template, jsonify, request, abort
 from flask_cors import CORS
 from flask_mysqldb import MySQL, MySQLdb
 from flask_socketio import SocketIO
+import uuid
 
 
 app = Flask(__name__, static_url_path='/templates')
@@ -37,10 +38,11 @@ def users():
         print("Missing email or password")
 
     cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-    cursor.execute(f'SELECT email, password FROM user_auth WHERE email="{email}";')
+    cursor.execute(f'SELECT email, pwd, session_id FROM user_auth WHERE email="{email}";')
     result = cursor.fetchall()
     if len(result) < 2:
-        cursor.execute(f'INSERT INTO user_auth (email, password) VALUES ("{email}", "{password}");')
+        id = str(uuid.uuid4())
+        cursor.execute(f'INSERT INTO user_auth (email, pwd, session_id) VALUES ("{email}", "{password}", "{id}");')
         mysql.connection.commit()
         cursor.close()
         return
@@ -50,23 +52,19 @@ def users():
     return('yeehaw')
 
 
-
-"""
-@app.route('/sessions', methods=['POST'])
+@app.route('/login', methods=['POST'])
 def login():
     """"""
     email = request.form.get('email')
     pwd = request.form.get('password')
-
-    if not email or not pwd:
-        abort(401)
-    if not (AUTH.valid_login(email=email, password=pwd)):
-        abort(401)
-    session_id = AUTH.create_session(email)
+    cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
+    cursor.execute(f'SELECT email, pwd FROM user_auth WHERE email="{email}";')
+    result = cursor.fetchall()
+    if len(result) > 2:
+        return
     response = jsonify({"email": email, "message": "logged in"})
-    response.set_cookie("session_id", session_id)
     return response
-"""
+
 
 @app.route("/filter", methods=['GET', 'POST', 'PUT'])
 def filter():
