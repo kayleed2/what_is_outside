@@ -62,8 +62,8 @@ def login():
     cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
     cursor.execute(f'SELECT email, pwd FROM user_auth WHERE email="{email}";')
     result = cursor.fetchall()
-    if len(result) > 2:
-        return
+    if len(result) < 2:
+        render_template('./home.html')
     response = jsonify({"email": email, "message": "logged in"})
     return response
 

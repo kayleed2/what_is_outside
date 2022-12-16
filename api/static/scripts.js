@@ -430,11 +430,12 @@ $("#myForm").submit(function(event) {
 }
 
 const login = function() {
-  let email = $('#email-input').val();
-  let password = $('#password-input').val();
+  let email = $('#email-input1').val();
+  let password = $('#password-input1').val();
   let user = {};
   user["email"] = email;
   user["password"] = password;
+  Cookies.set('user', JSON.stringify(user), { expires: 14, path: '' });
 
 $("#loginForm").submit(function(event) {
 
