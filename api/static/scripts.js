@@ -312,7 +312,6 @@ $(function () {
 
 function showWelcomeMessageOrForm() {
   if (document.cookie == '') {
-    alert("show")
     hideapi();
     showForm();
   } else {
