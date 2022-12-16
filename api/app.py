@@ -8,6 +8,7 @@ from flask_cors import CORS
 from flask_mysqldb import MySQL, MySQLdb
 from flask_socketio import SocketIO
 import uuid
+import urllib.parse
 
 
 app = Flask(__name__, static_url_path='/templates')
@@ -28,6 +29,7 @@ def home():
     """Route for users"""
     return render_template('./anotha-home.html')
 
+
 @app.route('/users', methods=['GET'])
 def users():
     """Route for users"""
@@ -42,7 +44,7 @@ def users():
     result = cursor.fetchall()
     if len(result) < 2:
         id = str(uuid.uuid4())
-        cursor.execute(f'INSERT INTO user_auth (email, pwd, session_id) VALUES ("{email}", "{password}", "{id}");')
+        cursor.execute(f'INSERT INTO user_auth (email, pwd, session_id) VALUES ("{(email)}", "{password}", "{id}");')
         mysql.connection.commit()
         cursor.close()
         return

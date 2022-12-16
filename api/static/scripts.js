@@ -1,11 +1,8 @@
 window.onload = function(){
-    content()
-    california();
-
+  showWelcomeMessageOrForm();
+  content()
+  california();
 }
-
-
-
 
 const months = ["January", "February", "March", "April",
     "May", "June", "July", "August", "Semptember", "October", "November", "December"]
@@ -97,20 +94,6 @@ function checkbox(element, array){
   }
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 function florida(){
   $("#beach-listings").empty()
   $("#state-header").empty()
@@ -155,11 +138,7 @@ function florida(){
       }
 
   });
-
-
 }
-
-
 
 function california(){
   $("#beach-listings").empty()
@@ -221,14 +200,9 @@ function california(){
         }
           $("#count").text(`${count} beaches`)
           beachPagination(count)
-
       }
-
-
   });
-
 }
-
 
 function getPageList(totalPages, page, maxLength){
 
@@ -304,17 +278,6 @@ function beachPagination(count){
     return showPage(currentPage - 1);
   });
 };
-
-
-
-
-
-
-
-
-
-
-
 
 $(function () {
 
@@ -393,38 +356,33 @@ $(function () {
 // Kaylee's JS for signup
 
 function showWelcomeMessageOrForm() {
-  $.ajax({
-    type: 'GET',
-    url: `http://localhost:8000/users`,
-    dataType: 'json',
-    data: {"email": email, "password": password},
-    beforeSend:  function(){
-        $(".loader").show()
-    },
-    complete: function(){
-        $(".loader").hide()
-    },
-    success: function(result){
-      console.log(result)
-      alert("Successful signup")
-    },
-  })
-  // if (Cookies.get('email') == null ) {
-  //   showForm();
-  // } else {
-  //   hideForm();
-  // }
+  if (document.cookie == '') {
+    alert("show")
+    showForm();
+  } else {
+    alert(document.cookie)
+    hideForm();
+  }
 }
 
 function hideForm() {
   let formdiv = document.getElementById('cont');
   formdiv.style.display = 'none';
   $('#signup').append(`<div class="p-5 mt-4 mb-4 d-flex flex-column justify-content-center align-items-center" id="members">
-  <h1 class="text-white text-center"><br>You are all signed up!</h1>
-  <a href="#"><button type="button" class="btn btn-secondary m-3 font-weight-bold border-0" style="background-color: var(--accent-lightblue);" id="member">Member Login</button></a>
+  <h2 class="text-white text-center"><br>Member Login</h2>
+  <form class="text-white m-5" id="loginForm" method="post">
+  <div class="form-group">
+      <label for="email-input">Email address</label>
+      <input type="email" class="form-control mb-0" id="email-input" aria-describedby="emailHelp" placeholder="Enter email">
+      <small id="emailHelp" class="form-text text-white mt-0">We won't share your email, just your brand.</small>
+  </div>
+  <div class="form-group">
+      <label for="firstname-input">Password</label>
+      <input type="text" class="form-control" id="password-input" placeholder="Password">
+  </div>
+  <input type="submit" id="submit-btn" onclick="login()" class="btn btn-primary mt-2 mb-5"></input>
+  </form>
   </div>`);
-
-
 }
 
 function showForm() {
@@ -441,8 +399,8 @@ const saveFile = function () {
   let email = $('#email-input').val();
   let password = $('#password-input').val();
   let user = {};
-  user["email"] = email;
-  user["password"] = password;
+  user["email"] = decodeURI(email);
+  user["password"] = decodeURI(password);
   Cookies.set('user', JSON.stringify(user), { expires: 14, path: '' });
 
 $("#myForm").submit(function(event) {
@@ -472,6 +430,8 @@ const login = function() {
   user["email"] = email;
   user["password"] = password;
 
+$("#loginForm").submit(function(event) {
+
   $.ajax({
     type: 'POST',
     url: `http://localhost:8000/login`,
@@ -488,4 +448,5 @@ const login = function() {
       alert("Successful login")
     },
   })
+});
 }
