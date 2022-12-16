@@ -375,7 +375,6 @@ $("#myForm").submit(function(event) {
         $(".loader").hide()
     },
     success: function(result){
-      console.log(result)
       if (result.error) {
         alert(result.error)
       } else {
