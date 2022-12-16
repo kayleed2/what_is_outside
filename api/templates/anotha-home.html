@@ -73,7 +73,7 @@
 <!--hero header-->
 <section class="py-md-0 bg-hero" id="home">
 
-    <div class="container">
+    <div class="container" id="api">
         <div class="row vh-md-100">
             <div class="col-md-8 col-sm-10 col-12 mx-auto my-auto text-center">
                 <h1 class="heading-black text-capitalize">What's Outside?</h1>
@@ -242,33 +242,36 @@
     </div>
     <div class="signup bg-color-darkaccent" id="signup">
         <div class="container" id="cont">
-            <h1 class="text-white text-center"><br>Sign up today!</h1>
-            <form class="text-white m-5" id="myForm" method="post">
-                <div class="form-group">
-                    <label for="email-input">Email address</label>
-                    <input type="email" class="form-control mb-0" id="email-input" aria-describedby="emailHelp" placeholder="Enter email">
-                    <small id="emailHelp" class="form-text text-white mt-0">We won't share your email, just your brand.</small>
-                </div>
-                <div class="form-group">
-                    <label for="firstname-input">Password</label>
-                    <input type="text" class="form-control" id="password-input" placeholder="Password">
-                </div>
-                <input type="submit" id="submit-btn" onclick="saveFile()" class="btn btn-primary mt-2 mb-5"></input>
-                <!-- <input type="submit" id="submit-btn" onclick="login()" class="btn btn-primary mt-2 mb-5"></input> -->
-            </form>
-            <h1 class="text-white text-center"><br>Login</h1>
-            <form class="text-white m-5" id="loginForm" method="post">
-                <div class="form-group">
-                    <label for="email-input">Email address</label>
-                    <input type="email" class="form-control mb-0" id="email-input" aria-describedby="emailHelp" placeholder="Enter email">
-                    <small id="emailHelp" class="form-text text-white mt-0">We won't share your email, just your brand.</small>
-                </div>
-                <div class="form-group">
-                    <label for="firstname-input">Password</label>
-                    <input type="text" class="form-control" id="password-input" placeholder="Password">
-                </div>
-                <input type="submit" id="submit-btn" onclick="login()" class="btn btn-primary mt-2 mb-5"></input>
-            </form>
+            <h1 class="text-white text-center"><br>Access the API</h1>
+            <div class="d-flex">
+                <form class="text-white m-5" id="myForm" method="post">
+                    <h3  class="text-center">Signup</h3>
+                    <div class="form-group">
+                        <label for="email-input">Email address</label>
+                        <input type="email" class="form-control mb-0" id="email-input" aria-describedby="emailHelp" placeholder="Enter email">
+                        <small id="emailHelp" class="form-text text-white mt-0">We won't share your email, just your brand.</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="firstname-input">Password</label>
+                        <input type="text" class="form-control" id="password-input" placeholder="Password">
+                    </div>
+                    <input type="submit" id="submit-btn" onclick="saveFile()" class="btn btn-primary mt-2 mb-5"></input>
+                    <!-- <input type="submit" id="submit-btn" onclick="login()" class="btn btn-primary mt-2 mb-5"></input> -->
+                </form>
+                <form class="text-white m-5" id="loginForm" method="post">
+                    <h3 class="text-center">Login</h3>
+                    <div class="form-group">
+                        <label for="email-input">Email address</label>
+                        <input type="email" class="form-control mb-0" id="email-input" aria-describedby="emailHelp" placeholder="Enter email">
+                        <small id="emailHelp" class="form-text text-white mt-0">We won't share your email, just your brand.</small>
+                    </div>
+                    <div class="form-group">
+                        <label for="firstname-input">Password</label>
+                        <input type="text" class="form-control" id="password-input" placeholder="Password">
+                    </div>
+                    <input type="submit" id="submit-btn" onclick="login()" class="btn btn-primary mt-2 mb-5"></input>
+                </form>
+            </div>
         </div>
     </div>
 </section>

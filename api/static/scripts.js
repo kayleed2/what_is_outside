@@ -358,31 +358,37 @@ $(function () {
 function showWelcomeMessageOrForm() {
   if (document.cookie == '') {
     alert("show")
+    hideapi();
     showForm();
   } else {
-    alert(document.cookie)
     hideForm();
   }
 }
 
+function hideapi() {
+  let formdiv = document.getElementById('api');
+  formdiv.style.display = 'none';
+}
+
+
 function hideForm() {
   let formdiv = document.getElementById('cont');
   formdiv.style.display = 'none';
-  $('#signup').append(`<div class="p-5 mt-4 mb-4 d-flex flex-column justify-content-center align-items-center" id="members">
-  <h2 class="text-white text-center"><br>Member Login</h2>
-  <form class="text-white m-5" id="loginForm" method="post">
-  <div class="form-group">
-      <label for="email-input">Email address</label>
-      <input type="email" class="form-control mb-0" id="email-input" aria-describedby="emailHelp" placeholder="Enter email">
-      <small id="emailHelp" class="form-text text-white mt-0">We won't share your email, just your brand.</small>
-  </div>
-  <div class="form-group">
-      <label for="firstname-input">Password</label>
-      <input type="text" class="form-control" id="password-input" placeholder="Password">
-  </div>
-  <input type="submit" id="submit-btn" onclick="login()" class="btn btn-primary mt-2 mb-5"></input>
-  </form>
-  </div>`);
+  // $('#signup').append(`<div class="p-5 mt-4 mb-4 d-flex flex-column justify-content-center align-items-center" id="members">
+  // <h2 class="text-white text-center"><br>Member Login</h2>
+  // <form class="text-white m-5" id="loginForm" method="post">
+  // <div class="form-group">
+  //     <label for="email-input">Email address</label>
+  //     <input type="email" class="form-control mb-0" id="email-input" aria-describedby="emailHelp" placeholder="Enter email">
+  //     <small id="emailHelp" class="form-text text-white mt-0">We won't share your email, just your brand.</small>
+  // </div>
+  // <div class="form-group">
+  //     <label for="firstname-input">Password</label>
+  //     <input type="text" class="form-control" id="password-input" placeholder="Password">
+  // </div>
+  // <input type="submit" id="submit-btn" onclick="login()" class="btn btn-primary mt-2 mb-5"></input>
+  // </form>
+  // </div>`);
 }
 
 function showForm() {
