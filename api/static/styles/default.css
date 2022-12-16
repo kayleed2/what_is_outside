@@ -296,10 +296,15 @@ h1, .h1 {
   font-size: 3rem; }
 
 h2, .h2 {
-  font-size: 2.5rem; }
+  font-size: 2rem;
+  color: #17487e;
+  /*  color: #521a78; */
+ }
 
 h3, .h3 {
-  font-size: 1.5rem; }
+  font-size: 1.5rem; 
+
+}
 
 h4, .h4 {
   font-size: 1.375rem; }
@@ -2064,6 +2069,9 @@ input[type="button"].btn-block {
   margin-left: 0; }
 
 .dropdown-menu {
+  max-height: 350px;
+  overflow: auto;
+
   position: absolute;
   top: 100%;
   left: 0;
@@ -7772,6 +7780,8 @@ button:hover{
 .beaches{
 background-color: #ffecd9;
 padding-bottom: 30px;
+width: 1500px;
+margin-left: -200px;
 
 }
 #beach-listings{

@@ -42,7 +42,7 @@ function content(){
     $("#subject").append(`
         <li>
                 <input type="checkbox" name="month[]" value=${subjects[i]} id=${subjects[i]} onclick="checkbox(this, selected_subjects)">
-                <span>${subjects[i]}</span>
+                <span>${subjects[i].replace('_', ' ')}</span>
 
         </li>
     `)
@@ -52,7 +52,7 @@ function content(){
     $("#color").append(`
         <li>
                 <input type="checkbox" name="month[]" value=${colors[i]} id=${colors[i]} onclick="checkbox(this, selected_colors)">
-                <span>${colors[i]}</span>
+                <span>${colors[i].replace('_', ' ')}</span>
 
         </li>
     `)
@@ -139,13 +139,17 @@ function california(){
             // }
             if (result[i]){
                   count++;
+                  let link = result[i].youtube_src
                   $("#beach-listings").append(`
-                    <div class="col-12 col-sm-4 col-lg-3 beach-item">
+                    <div class="col-12 col-sm-4 col-lg-3 beach-item" onClick = "newTab('${link}')">
                       <div class="card border-0">
                         <img class="card-img-top beach-img " src=${result[i].img_src}>
                         <div class="card-info">
                           <h3 class="card-title">${result[i].title}</h3>
-                            <p class="text-royal pl-3 pt-2">${result[i].date}</p>
+                            <p class="text-royal pl-3 pt-2">Episode: ${result[i].episode}</p>
+                            <p class="text-royal pl-3 pt-0">Month: ${result[i].date}</p>
+
+
                         </div>
                       </div>
                     </div>
@@ -153,10 +157,20 @@ function california(){
 
             }
         }
-          $("#count").text(`${count} beaches`)
+          $("#count").text(`${count} paintings`)
           beachPagination(count)
       }
   });
+}
+function newTab(link){
+  console.log("new tab")
+  console.log(link)
+
+  var win = window.open(link, '_blank');
+  if (win) {
+      //Browser has allowed it to be opened
+      win.focus();
+  }
 }
 
 function getPageList(totalPages, page, maxLength){
