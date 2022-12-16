@@ -94,51 +94,6 @@ function checkbox(element, array){
   }
 }
 
-function florida(){
-  $("#beach-listings").empty()
-  $("#state-header").empty()
-
-
-  $.ajax({
-      type: 'GET',
-      url: `http://localhost:5000/filter`,
-      dataType: 'json',
-      beforeSend:  function(){
-          $(".loader").show()
-      },
-      complete: function(){
-          $(".loader").hide()
-      },
-      success: function(result){
-          let count = 0;
-          // let image = "images/sample-beach1a.jpg"
-          // console.log(result.features[0].attributes.BEACH_OR_CITY_NAME)
-          // console.log(result.features[0].attributes)
-          $("#state-header").html(`<h3>Florida Beaches<h3>`)
-          for(let i = 0; i < 50; i++){
-              count++;
-              $("#beach-listings").append(`
-              <div class="col-12 col-sm-4 col-lg-3 beach-item">
-                <div class="card border-0">
-                  <img class="card-img-top beach-img " src=${image}>
-                      <div class="card-info">
-                          <h3 class="card-title">${result.features[i].attributes.BEACH_OR_CITY_NAME}</h3>
-                          <p class="text-royal pl-3 pt-2">${result.features[i].attributes.LOCATION_ADDRESS}</p>
-                      </div>
-
-                </div>
-              </div>`)
-
-
-          }
-          $("#count").text(`${count} beaches`)
-          beachPagination(count)
-
-
-      }
-
-  });
-}
 
 function california(){
   $("#beach-listings").empty()
@@ -156,7 +111,7 @@ function california(){
   for (let i = 0; i < selected_colors.length; i++) {
     url += `colors=${selected_colors[i]}&`
   }
-
+  console.log(url)
   $.ajax({
       type: 'GET',
       url: url,
@@ -407,7 +362,6 @@ const saveFile = function () {
   let user = {};
   user["email"] = decodeURI(email);
   user["password"] = decodeURI(password);
-  Cookies.set('user', JSON.stringify(user), { expires: 14, path: '' });
 
 $("#myForm").submit(function(event) {
 
@@ -423,7 +377,12 @@ $("#myForm").submit(function(event) {
     },
     success: function(result){
       console.log(result)
-      alert("Successful signup")
+      if (result.error) {
+        alert(result.error)
+      } else {
+        Cookies.set('user', JSON.stringify(user), { expires: 14, path: '' });
+        alert("Successful signup")
+      }
     },
   })
 });
@@ -435,7 +394,6 @@ const login = function() {
   let user = {};
   user["email"] = email;
   user["password"] = password;
-  Cookies.set('user', JSON.stringify(user), { expires: 14, path: '' });
 
 $("#loginForm").submit(function(event) {
 
@@ -451,8 +409,12 @@ $("#loginForm").submit(function(event) {
         $(".loader").hide()
     },
     success: function(result){
-      console.log(result)
-      alert("Successful login")
+      if (result.error) {
+        alert(result.error)
+      } else {
+        Cookies.set('user', JSON.stringify(user), { expires: 14, path: '' });
+        alert("Successful login");
+      }
     },
   })
 });

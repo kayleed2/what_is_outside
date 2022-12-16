@@ -42,16 +42,13 @@ def users():
     cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
     cursor.execute(f'SELECT email, pwd, session_id FROM user_auth WHERE email="{email}";')
     result = cursor.fetchall()
-    if len(result) < 2:
+    if len(result) < 1:
         id = str(uuid.uuid4())
         cursor.execute(f'INSERT INTO user_auth (email, pwd, session_id) VALUES ("{(email)}", "{password}", "{id}");')
         mysql.connection.commit()
         cursor.close()
-        return
-    print('account already exists')
-    print(result)
-
-    return('yeehaw')
+        return jsonify({"email": email, "message": "logged in"})
+    return jsonify({"error": "account already exists"})
 
 
 @app.route('/login', methods=['POST'])
@@ -60,10 +57,11 @@ def login():
     email = request.form.get('email')
     pwd = request.form.get('password')
     cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
-    cursor.execute(f'SELECT email, pwd FROM user_auth WHERE email="{email}";')
+    cursor.execute(f'SELECT email, pwd FROM user_auth WHERE email="{email}" AND pwd="{pwd}";')
     result = cursor.fetchall()
-    if len(result) < 2:
-        render_template('./home.html')
+    print(result, len(result))
+    if len(result) < 1:
+        return jsonify({"error": "Login failed"})
     response = jsonify({"email": email, "message": "logged in"})
     return response
 
@@ -71,7 +69,7 @@ def login():
 @app.route("/filter", methods=['GET', 'POST', 'PUT'])
 def filter():
 
-    req = request.args.to_dict()
+    req = request.args.to_dict(flat=False)
 
 # http://0.0.0.0:8000/filter?match=True&months=january&months=july&colors=Bright_Red&subjects=bushes
 
@@ -120,6 +118,8 @@ def filter():
         monthQuery += ")"
 
     sql += f"{monthQuery} {colorQuery} {subjectQuery}"
+
+    print(sql)
 
     cursor = mysql.connection.cursor(MySQLdb.cursors.DictCursor)
     cursor.execute(sql)
