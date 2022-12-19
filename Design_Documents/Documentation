@@ -1,0 +1,43 @@
+# Holberston School - What Is Outside - Documentation
+
+## Write Up : The Design
+This end result of this project will be a fully functional single page application with full API integration.
+
+The theme, "What's Outside," is clearly seen in the use of Bob Ross' beautiful outdoor paintings. The application allows the user to filter through Bob Ross' painting tutorials by month, subject, and colors used. Once the desired paintings are rendered, the user can simply click on the card of their choice which will then send them to the youtube tutorial of that specific painting.
+
+## Write Up: Tools
+In creating the backend database for the API, mysql was used in correlation with python, sqlalchemy, and pandas. Data was converted from given files of variouse structures and integrated into sql tables.
+Python, Flask, and socketio were used to create the API endpoints, connect to the database, and create the application server.
+
+The frontend tools consisted of javascript, bootstrap, and html/css.
+
+## Write Up: Timeline
+
+1-2 days design development
+1-2 days database creation and clean up
+4-5 days backend development
+4-5 days front end development
+1-2 days final touches
+
+## API Documentation
+
+Data from this API can be requested using the GET method.
+The user can access Bob Ross painitngs with three filtering options: month, subject, and colors.
+
+A GET request with a query specifying one or more of these filtering options will return JSON data for each episode where the filters are true. The user can specify if they want episodes where all three filters must be true, or where at least one must be true. This is done using "match" in the query. "match=1" requires all filter options to be true in the results.
+Output example:
+    
+    {
+        'episode': ****,
+        'title': ****,,
+        'date': ****,,
+        'colors': ****,,
+        'img_src': ****,,
+        'youtube_src': ****,
+    }
+
+Example query - months only: `http://0.0.0.0:3000/filter?months=January&months=March`
+Example query - colors only: `http://0.0.0.0:3000/filter?colors=Bright_Red&colors=Prussian_Blue`
+Example query - subject only: `http://0.0.0.0:3000/filter?subject=cabin`
+
+Example query - all filters: `http://0.0.0.0:3000/filter?match=1&months=January&months=March&colors=Bright_Red&colors=Prussian_Blue&subject=cabin`
