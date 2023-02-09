@@ -157,8 +157,10 @@ function california(){
 
             }
         }
+        console.log("test")
           $("#count").text(`${count} paintings`)
           beachPagination(count)
+
       }
   });
 }
@@ -182,7 +184,15 @@ function getPageList(totalPages, page, maxLength){
   var sideWidth = maxLength < 9 ? 1 : 30;
   var leftWidth = (maxLength - sideWidth * 2 - 3) >> 1;
   var rightWidth = (maxLength - sideWidth * 2 - 3) >> 1;
-
+  console.log("-----------")
+  console.log(sideWidth)
+  console.log(leftWidth)
+  console.log(rightWidth)
+  /*
+  if (totalPages > 27){
+    totalPages = 27
+  }
+*/
   if(totalPages <= maxLength){
     return range(1, totalPages);
   }
@@ -202,19 +212,34 @@ function beachPagination(count){
 
   var numberOfItems = count;
   var limitPerPage = 8; //How many card items visible per a page
+  if (numberOfItems > 200){
+    limitPerPage = 16
+  }
   var totalPages = Math.ceil(numberOfItems / limitPerPage);
   var paginationSize = 7; //How many page elements visible in the pagination
   var currentPage;
+  console.log("TOTAL PAGES!!!!!!!!!!!!!!!:")
 
+  console.log(totalPages)
+  console.log("test2")
+  //if (totalPages > 10) return false
+  
   function showPage(whichPage){
 
     if(whichPage < 1 || whichPage > totalPages) return false;
-
+    
     currentPage = whichPage;
+    if (currentPage >= 27) return false
+
 
     $("#beach-listings .card").hide().slice((currentPage - 1) * limitPerPage, currentPage * limitPerPage).show();
 
-    $(".pagination li").slice(1, -1).remove();
+    $(".pagination li").slice(1, -1).remove()
+    /*;
+    if (totalPages >= 27){
+      totalPages = 27
+    }
+    */
 
     getPageList(totalPages, currentPage, numberOfItems).forEach(item => {
       $("<li>").addClass("page-item").addClass(item ? "current-page" : "dots")
